@@ -1,0 +1,55 @@
+{% extends "../sub_base.html" %}
+{% block title %}Reactivate{% endblock %}
+{% block sub_content %}
+
+{% if request.user.is_authenticated %}
+<script>
+    window.location.href = '{% url "account:dashboard" %}';
+</script>
+{% endif %}
+
+
+
+<form class="account-form p-4 rounded col-lg-10 mx-auto" action="." method="post">
+
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+
+    {% if messages %}
+    {% if messages|length == 1 %}
+    {% for message in messages %}
+
+    <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %} role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% else %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert {{ message.tags }}" {% endif %} role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endif %}
+
+    <h3 class="mb-2 font-weight-bold">Reactivate your account</h3>
+    <p class="mb-4">It only takes few seconds to bring your account back</p>
+
+    {% csrf_token %}
+    <label>{{ form.email.label}}<span class="text-muted mb-3">
+        </span></label>
+    {{form.email}}
+
+    <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Send
+        Reactivation Request</button>
+    <p class="text-center">
+        <a href="{% url 'account:login' %}">Log-In to account</a>
+    </p>
+</form>
+
+{% endblock %}
