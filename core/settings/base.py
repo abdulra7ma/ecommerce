@@ -1,15 +1,32 @@
 import os
 from pathlib import Path
 from typing import cast
+import sys
 
 from decouple import config
 from django.urls import reverse
+from os.path import dirname, join, normpath, abspath, basename
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# fetch Django's project directory
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+
+# fetch the project_root
+PROJECT_ROOT = dirname(DJANGO_ROOT)
+
+# the name of the whole site
+SITE_NAME = basename(DJANGO_ROOT)
+
+# fetch the project_root
+PROJECT_ROOT = dirname(DJANGO_ROOT)
 
 SECRET_KEY = config("SECRET_KEY")
 
 DEBUG = config("DEBUG", cast=bool)
+
+# add apps/ to the Python path
+sys.path.append(normpath(join(PROJECT_ROOT, "apps")))
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
